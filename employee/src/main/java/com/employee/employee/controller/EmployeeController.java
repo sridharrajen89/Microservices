@@ -1,6 +1,7 @@
 package com.employee.employee.controller;
 
 import com.employee.employee.exception.RecordNotFoundException;
+import com.employee.employee.model.DepartmentResponse;
 import com.employee.employee.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.employee.employee.service.EmployeeService;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -17,6 +19,9 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService service;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
@@ -29,6 +34,9 @@ public class EmployeeController {
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id)
             throws RecordNotFoundException {
         Employee entity = service.getEmployeeById(id);
+
+        DepartmentResponse departmentResponse = restTemplate.getForObject("http://localhost:9002/department-service//departments/{id}", DepartmentResponse.class, id);
+        entity.setDepartmentResponse(departmentResponse);
 
         return new ResponseEntity<Employee>(entity, new HttpHeaders(), HttpStatus.OK);
     }

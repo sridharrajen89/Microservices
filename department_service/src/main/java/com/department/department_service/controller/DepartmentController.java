@@ -22,6 +22,12 @@ public class DepartmentController {
         return departmentService.getAllDepartments();
     }
 
+    // d department
+    @GetMapping("/departments/{id}")
+    public void addDepartment(@RequestBody Department department){
+        departmentService.addDepartment(department);
+    }
+
     // inserting department
     @PostMapping("/departments")
     public void addDepartment(@RequestBody Department department){

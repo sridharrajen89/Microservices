@@ -17,6 +17,9 @@ public class Employee {
 
     @Column(name = "email")
     private String email;
+
+    private DepartmentResponse departmentResponse;
+
     public long getId() {
         return id;
     }
@@ -40,5 +43,13 @@ public class Employee {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setDepartmentResponse(DepartmentResponse departmentResponse) {
+        this.departmentResponse = departmentResponse;
+    }
+
+    public DepartmentResponse getDepartmentResponse() {
+        return departmentResponse;
     }
 }
